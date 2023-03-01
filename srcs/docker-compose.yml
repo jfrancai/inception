@@ -1,0 +1,55 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx/
+    ports:
+      - "443:443"
+    restart: always
+    networks:
+      mynet:
+        ipv4_address: "172.18.1.2"
+    volumes:
+      - /var/www/html:/var/www/html
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    build: ./requirements/wordpress/
+    ports:
+      - "9000:9000"
+    environment:
+      WORDPRESS_DB_HOST: "root"
+      WORDPRESS_DB_USER: "root"
+      WORDPRESS_DB_PASSWORD: ""
+      WORDPRESS_DB_NAME: "inception"
+    networks:
+      mynet:
+        ipv4_address: "172.18.1.3"
+    volumes:
+      - /var/www/html:/var/www/html
+#  mariadb:
+#    container_name: mariadb
+#    build: ./requirements/mariadb/
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      ENV MYSQL_ROOT_PASSWORD: ""
+#      ENV MYSQL_DATABASE: "inception"
+#      ENV MYSQL_USER: "root"
+#      ENV MYSQL_PASSWORD: ""
+#    restart: always
+#    networks:
+#      mynet:
+#        ipv4_address: "172.18.1.4"
+#    volumes:
+#      - db:/var/lib/mysql
+#  db:
+networks:
+  mynet:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.1.0/24"
