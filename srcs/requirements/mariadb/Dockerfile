@@ -1,17 +1,15 @@
-# Use the official Debian as a parent image
-FROM debian
+FROM debian:11-slim
 
-# Set the environment variables for MariaDB installation
-# Install MariaDB and its dependencies
 RUN apt-get update && \
-    apt-get install -y mariadb-server && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y mariadb-server
 
-# Copy the custom configuration file
-#COPY my.cnf /etc/mysql/conf.d/
+COPY tools/install.sh /
 
-# Expose the default MySQL port
+RUN sed -i -e 's/127.0.0.1/0.0.0.0/' \
+	/etc/mysql/mariadb.conf.d/50-server.cnf && \
+	mkdir -p /var/run/mysqld/ /run/mysqld && \
+	chown -R mysql:root /run/mysqld
+
 EXPOSE 3306
 
-# Start MariaDB service
-CMD ["mysqld_safe"]
+CMD ["mysqld"]
