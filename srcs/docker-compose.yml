@@ -31,6 +31,8 @@ services:
     build: ./requirements/mariadb/
     ports:
       - "3306:3306"
+    env_file:
+      - .env
     networks:
       mynet:
         ipv4_address: "172.18.1.4"

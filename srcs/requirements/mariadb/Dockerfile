@@ -11,8 +11,7 @@ RUN sed -i -e 's/127.0.0.1/0.0.0.0/' \
 COPY tools/install.sh /
 
 RUN chmod +x install.sh
-RUN service mariadb start && ./install.sh
 
 EXPOSE 3306
 
-CMD ["mysqld"]
+CMD ["./install.sh"]

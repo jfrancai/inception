@@ -1,11 +1,20 @@
 #! /bin/bash
 
-newUser='jfrancai'
-newDbPassword='jfrancai42'
-newDb='inceptiondb'
-host='%'
+service mariadb start
 
 # MySQL 8 and higher versions
-commands="CREATE DATABASE \`${newDb}\`;CREATE USER '${newUser}'@'${host}' IDENTIFIED BY '${newDbPassword}';GRANT USAGE ON *.* TO '${newUser}'@'${host}';GRANT ALL ON \`${newDb}\`.* TO '${newUser}'@'${host}';FLUSH PRIVILEGES;"
+commands="
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
+	FLUSH PRIVILEGES;
+
+	CREATE DATABASE \`${NEW_DB_NAME}\`;
+	CREATE USER '${NEW_USER}'@'${HOST}' IDENTIFIED BY '${NEW_DB_PASSWORD}';
+	GRANT USAGE ON *.* TO '${NEW_USER}'@'${HOST}';
+	GRANT ALL ON \`${NEW_DB_NAME}\`.* TO '${NEW_USER}'@'${HOST}';
+	FLUSH PRIVILEGES;"
 
 echo "${commands}" | /usr/bin/mysql -u root
+
+service mariadb stop
+
+mysqld
