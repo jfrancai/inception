@@ -28,11 +28,18 @@ services:
       - wp:/var/www/html
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb/
     ports:
       - "3306:3306"
     env_file:
       - .env
+    build:
+      context: ./requirements/mariadb
+      args:
+        - NEW_USER=${NEW_USER}
+        - ROOT_PASSWORD=${ROOT_PASSWORD}
+        - NEW_DB_PASSWORD=${NEW_DB_PASSWORD}
+        - NEW_DB_NAME=${NEW_DB_NAME}
+        - HOST=${HOST}
     networks:
       mynet:
         ipv4_address: "172.18.1.4"
