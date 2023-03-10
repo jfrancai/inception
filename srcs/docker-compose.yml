@@ -20,6 +20,12 @@ services:
       - mariadb
     build:
       context: ./requirements/wordpress/
+      args:
+        - NEW_USER=${NEW_USER}
+        - ROOT_PASSWORD=${ROOT_PASSWORD}
+        - NEW_DB_PASSWORD=${NEW_DB_PASSWORD}
+        - NEW_DB_NAME=${NEW_DB_NAME}
+        - NEW_HOST=${WORDPRESS_HOST}
     restart: always
     ports:
       - "9000:9000"
@@ -40,7 +46,7 @@ services:
         - ROOT_PASSWORD=${ROOT_PASSWORD}
         - NEW_DB_PASSWORD=${NEW_DB_PASSWORD}
         - NEW_DB_NAME=${NEW_DB_NAME}
-        - HOST=${HOST}
+        - NEW_HOST=${MARIADB_HOST}
     ports:
       - "3306:3306"
     networks:

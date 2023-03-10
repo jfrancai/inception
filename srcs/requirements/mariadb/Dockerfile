@@ -4,7 +4,7 @@ ARG NEW_USER
 ARG ROOT_PASSWORD
 ARG NEW_DB_PASSWORD
 ARG NEW_DB_NAME
-ARG HOST
+ARG NEW_HOST
 
 RUN apt-get update && \
     apt-get install -y mariadb-server
@@ -12,9 +12,9 @@ RUN apt-get update && \
 RUN service mariadb start && commands=" \
 		ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}'; \
 		CREATE DATABASE \`${NEW_DB_NAME}\`; \
-		CREATE USER '${NEW_USER}'@'${HOST}' IDENTIFIED BY '${NEW_DB_PASSWORD}'; \
-		GRANT USAGE ON *.* TO '${NEW_USER}'@'${HOST}'; \
-		GRANT ALL ON \`${NEW_DB_NAME}\`.* TO '${NEW_USER}'@'${HOST}'; \
+		CREATE USER '${NEW_USER}'@'${NEW_HOST}' IDENTIFIED BY '${NEW_DB_PASSWORD}'; \
+		GRANT USAGE ON *.* TO '${NEW_USER}'@'${NEW_HOST}'; \
+		GRANT ALL ON \`${NEW_DB_NAME}\`.* TO '${NEW_USER}'@'${NEW_HOST}'; \
 		FLUSH PRIVILEGES;" && \
 	echo "${commands}" | /usr/bin/mysql -u root;
 
