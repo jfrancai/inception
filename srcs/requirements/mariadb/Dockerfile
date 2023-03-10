@@ -26,4 +26,4 @@ RUN sed -i -e 's/# port = 3306/port = 3306/' -e 's/^socket =/#/' /etc/mysql/my.c
 	sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf;
 
 EXPOSE 3306
-ENTRYPOINT ["mysqld"]
+CMD ["mysqld"]
