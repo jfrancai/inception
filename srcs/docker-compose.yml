@@ -18,14 +18,23 @@ services:
     container_name: wordpress
     depends_on:
       - mariadb
+    env_file:
+      - .env
     build:
       context: ./requirements/wordpress/
-      args:
-        - NEW_USER=${NEW_USER}
-        - ROOT_PASSWORD=${ROOT_PASSWORD}
-        - NEW_DB_PASSWORD=${NEW_DB_PASSWORD}
-        - NEW_DB_NAME=${NEW_DB_NAME}
-        - NEW_HOST=${WORDPRESS_HOST}
+    environment:
+      - DBNAME=${MARIA_DBNAME}
+      - DBUSER=${MARIA_USER}
+      - DBPASS=${MARIA_PASSWORD}
+      - DBHOST=${WP_DBHOST}
+      - URL=${URL}
+      - TITLE=${WP_TITLE}
+      - ADMIN_USER=${WP_ADMIN_USER}
+      - ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
+      - ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      - USER=${WP_USER}
+      - PASSWORD=${WP_PASSWORD}
+      - EMAIL=${WP_EMAIL}
     restart: always
     ports:
       - "9000:9000"
@@ -42,11 +51,11 @@ services:
     build:
       context: ./requirements/mariadb
       args:
-        - NEW_USER=${NEW_USER}
-        - ROOT_PASSWORD=${ROOT_PASSWORD}
-        - NEW_DB_PASSWORD=${NEW_DB_PASSWORD}
-        - NEW_DB_NAME=${NEW_DB_NAME}
-        - NEW_HOST=${MARIADB_HOST}
+        - NEW_USER=${MARIA_USER}
+        - ROOT_PASSWORD=${MARIA_ROOT_PASSWORD}
+        - NEW_DB_PASSWORD=${MARIA_PASSWORD}
+        - NEW_DB_NAME=${MARIA_DBNAME}
+        - NEW_HOST=${MARIA_DBHOST}
     ports:
       - "3306:3306"
     networks:
