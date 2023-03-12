@@ -1,15 +1,15 @@
-PATH=./srcs/
+YML=/home/jfrancai/inception/srcs/docker-compose.yml
 DOCKER_COMPOSE=/usr/local/bin/docker-compose
 DOCKER=/usr/bin/docker
 SH=/bin/bash -c
 
-compose: $(PATH)docker-compose.yml
-	$(SH) "cd $(PATH) && $(DOCKER_COMPOSE) up -d"
+compose: $(YML)
+	$(DOCKER_COMPOSE) -f $(YML) up -d
 
-down: $(PATH)docker-compose.yml
-	$(SH) "cd $(PATH) && $(DOCKER_COMPOSE) down"
+down: $(YML)
+	$(DOCKER_COMPOSE) -f $(YML) down
 
-prune:
-	$(SH) "cd $(PATH) && $(DOCKER) system prune -a"
+install: .install.sh
+	./.install.sh
 
-.PHONNY: compose down prune
+.PHONNY: compose down install
