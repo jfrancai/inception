@@ -4,7 +4,7 @@ DOCKER=/usr/bin/docker
 SH=/bin/bash -c
 
 compose: $(YML)
-	$(DOCKER_COMPOSE) -f $(YML) up -d
+	$(DOCKER_COMPOSE) -f $(YML) up --build -d
 
 down: $(YML)
 	$(DOCKER_COMPOSE) -f $(YML) down

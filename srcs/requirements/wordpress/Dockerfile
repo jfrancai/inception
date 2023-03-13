@@ -16,7 +16,7 @@ RUN apt-get install -y \
 	mariadb-client
 
 RUN mkdir -p /run/php /var/www/html; \
-	sed -i -e 's/^listen = .*/listen = 172.18.1.3:9000/' /etc/php/7.4/fpm/pool.d/www.conf;
+	sed -i -e 's/^listen = .*/listen = wordpress:9000/' /etc/php/7.4/fpm/pool.d/www.conf;
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
 	chmod +x wp-cli.phar; \

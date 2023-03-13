@@ -11,7 +11,6 @@ services:
       - "443:443"
     networks:
       mynet:
-        ipv4_address: "172.18.1.2"
     volumes:
       - wp:/var/www/html
   wordpress:
@@ -36,11 +35,8 @@ services:
       - PASSWORD=${WP_PASSWORD}
       - EMAIL=${WP_EMAIL}
     restart: always
-    ports:
-      - "9000:9000"
     networks:
       mynet:
-        ipv4_address: "172.18.1.3"
     volumes:
       - wp:/var/www/html
   mariadb:
@@ -56,11 +52,8 @@ services:
         - NEW_DB_PASSWORD=${MARIA_PASSWORD}
         - NEW_DB_NAME=${MARIA_DBNAME}
         - NEW_HOST=${MARIA_DBHOST}
-    ports:
-      - "3306:3306"
     networks:
       mynet:
-        ipv4_address: "172.18.1.4"
     volumes:
       - db:/var/lib/mysql
 volumes:
@@ -80,5 +73,3 @@ networks:
   mynet:
     ipam:
       driver: default
-      config:
-        - subnet: "172.18.1.0/24"
